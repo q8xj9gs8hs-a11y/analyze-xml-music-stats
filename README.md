@@ -39,7 +39,7 @@ An alternative way to pass the `Library.xml` file as input for the model via cha
 
 # Degrees of Freedom
 1. Depending on your situation, your music library might be humongous (mine is over 2000 songs). Thus, you will most likely exceed the context length simply because of the massive amount of data being input
-  - ***FIX:***: use the `tail` and `head` commands to cut content out for relevancy or plain size control; for example:
+  - ***FIX:*** use the `tail` and `head` commands to cut content out for relevancy or plain size control; for example:
 
 ```tail -n 300 /path/to/xml/file | fabric -p analyze_xml```
     
