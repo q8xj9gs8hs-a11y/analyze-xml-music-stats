@@ -1,61 +1,54 @@
-# fabric-ai_custom_pattern-analyze_xml
-Custom pattern for reading and displaying top statistics from Apple Music library.xml, including play counts, artists, genres, and songs
+# analyze-xml-music-stats
+Custom pattern for reading and displaying top statistics from Apple Music Library.xml, including play counts, artists, genres, songs, and more.
 
----
-
-## This first pattern, called analyze_xml, starts as folows:
+## This fabric pattern, called analyze_xml, starts as folows:
 - Go into Apple Music on MacOS desktop app (this may be possible on web version as well if you do not have a Mac, not entirely sure though)
 - Click `File` > `Library` > `Export Library...`
 - Choose you which directory to save it in. you now have your entire music library in its data form as a `.xml` file.
 
----
+## To start using this pattern (Mac):
+1. Install fabric-ai on your device. If you use Homebrew:
 
-## To start using this pattern:
-- Download fabric-ai with `brew install fabric-ai` if you have Homebrew. I will link the other ways of installing fabric, like linking to daniel's repo for fabric-ai (all credit goes to him).
-- I will not go over the steps for setting up fabric-ai, that will be its own dedicated repo later.
+`brew install fabric-ai`
 
-- Create a custom directory to store your custom-made patterns. Mine is in `~/.config/fabric/my-custom-patterns` (it does not matter where, just so long you configure the directory appropriately in fabric's setup).
-- Create a folder with its name being the name of the pattern.
-- Download the markdown file, which contains the specific prompt for this pattern, into that folder.
+2. Create a custom directory to store your custom-made patterns (e.g. `~/.config/fabric/my-custom-patterns`). It does not matter where, just so long you configure the directory appropriately in fabric's setup (`fabric-ai --setup`).
+  
+3. Create a folder with its name being the name of the pattern.
+
+4. Download the markdown file, which contains the specific prompt for this pattern, into that folder.
 
   *or*
-  
-  `git clone https://github.com/q8xj9gs8hs-a11y/fabric-ai-custom_pattern-analyze_xml.git` and `cd fabric-ai-custom_pattern-analyze_xml && cp    system.md ~/.config/fabric/patterns/analyze_xml`
-
----
-
-# You now have set up the pattern for use!
+```
+  git clone https://github.com/q8xj9gs8hs-a11y/analyze-xml-music-stats.git && \
+  cd q8xj9gs8hs-a11y/analyze-xml-music-stats && \
+  cp system.md ~/.config/fabric/my-custom-patterns/analyze_xml
+```
 
 ## Example usage:
-```
-fabric-ai -p analyze_xml < library.xml
-```
-for raw output into the Terminal.
+For raw output into the Terminal:
 
-```
-( fabric-ai -p analyze_xml < library ) > ~/Desktop/Music_stats.md
-``` 
-to overwrite the output onto a file called `Music_stats`
+```fabric-ai -p analyze_xml < Library.xml```
 
-```
-cat library.xml | fabric-ai -p analyze_xml | fabric 'What was my top artist played?'
-```
-(1) an alternative way to pass the xml file as input for the model, (2) chaining with `|`, using the outputs of the commands as input for the next
+To save the output onto a file called `Music_stats`
 
----
+```fabric-ai -p analyze_xml -o Music_stats.md``` 
 
-# Notes
-- Depending on your situation, your music library might be humongous (like mine, over 2000 songs)! Thus, you will most likely exceed the context length simply because of the massive amount of data being input
-  - ***fix***: use the `tail` and `head` commands to cut content out for relevancy or plain size control; for example, `tail -n 300 /path/to/xml/file | fabric -p analyze_xml`
-- Most of the data in the `.xml` file will not be necessary. This is where the power of tweaking the pattern and query to your liking lies.
+An alternative way to pass the `Library.xml` file as input for the model via chaining with `|`
 
-Thus, feel free to add intermediate steps between exporting your `library.xml` and creating the custom pattern (`system.md`), including, but not limited to:
+```cat library.xml | fabric-ai -p analyze_xml | fabric 'What was my top artist played?'```
 
-- Using `grep`, `awk`, or other related tools to parse through the data and extract only the types you need for statistics.
-- This means that you can get more personal statistics than just what the pattern has, whatever data is in the `.xml`
-- Here is an example that I did:
+# Degrees of Freedom
+1. Depending on your situation, your music library might be humongous (mine is over 2000 songs). Thus, you will most likely exceed the context length simply because of the massive amount of data being input
+  - ***FIX:***: use the `tail` and `head` commands to cut content out for relevancy or plain size control; for example:
+
+```tail -n 300 /path/to/xml/file | fabric -p analyze_xml```
+    
+2. Most of the data in the `.xml` file will not be necessary. In comes the power of tweaking the pattern and query to your liking. To add intermediate steps between exporting your `Library.xml` and creating the custom pattern (`system.md`), including, but not limited to:
+ - ***FIX:*** Using `grep`, `awk`, or other related tools to parse through the data and extract only the types you need for statistics. This means that you can get more personal statistics than just what the pattern has, whatever data is in the `.xml`. Here is an example that I did:
+
 ```grep -iE '<key>Name</key><string>|<key>Artist</key><string>|play count|genre' Library_5.xml > Library_5.txt```
-That way I only have the `Play Count`, `Song`, `Artist`, and `Genre` saved in the input file (meaning the analyze_xml doesn't necessarily need `.xml` as the input!)
 
-- Increasing the amount of songs, artists, genre, etc. that the model will output as the ranking. In other words, feel free to increase or decrease the length of the ranking to your heart's content, whether it be the top 100 songs, or top 3.
-- Altering the format of the output, the template that was explicated within the `system.md`. Change it to your liking if you don't prefer how the model is formatting the rankings.
+This way I only have the `Play Count`, `Song`, `Artist`, and `Genre` saved in the `Library.xml` file (can also be `.txt`).
+
+3. Increasing the amount of songs, artists, genre, etc. that the model will process. In other words, feel free to increase or decrease the length of the ranking to your heart's content, whether it be the top 100 songs, or top 3.
+4. Altering the format of the output, the template that was explicated within the `system.md`. Change it to your liking if you don't prefer how the model is formatting the rankings.
