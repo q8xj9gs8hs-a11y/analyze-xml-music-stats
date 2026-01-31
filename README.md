@@ -11,15 +11,16 @@ Custom pattern for reading and displaying top statistics from Apple Music librar
 ---
 
 ## To start using this pattern:
-- download fabric-ai with `brew install fabric-ai` if you have Homebrew. I will link the other ways of installing fabric, like linking to daniel's repo for fabric-ai (all credit goes to him).
+- Download fabric-ai with `brew install fabric-ai` if you have Homebrew. I will link the other ways of installing fabric, like linking to daniel's repo for fabric-ai (all credit goes to him).
 - I will not go over the steps for setting up fabric-ai, that will be its own dedicated repo later.
 
-- create a custom directory to store your custom-made patterns. mine is in `~/.config/fabric/my-custom-patterns` (it does not matter where, just so long you configure the directory appropriately in fabric's setup
-- create a folder with its name being the name of the pattern
-- download the markdown file, which contains the specific prompt for this pattern, into that folder.
+- Create a custom directory to store your custom-made patterns. Mine is in `~/.config/fabric/my-custom-patterns` (it does not matter where, just so long you configure the directory appropriately in fabric's setup).
+- Create a folder with its name being the name of the pattern.
+- Download the markdown file, which contains the specific prompt for this pattern, into that folder.
 
   *or*
-- `git clone` and `cd fabric-ai-custom_pattern-analyze_xml && mv system.md ~/.config/fabric/patterns/analyze_xml`
+  
+  `git clone https://github.com/q8xj9gs8hs-a11y/fabric-ai-custom_pattern-analyze_xml.git` and `cd fabric-ai-custom_pattern-analyze_xml && cp    system.md ~/.config/fabric/patterns/analyze_xml`
 
 ---
 
@@ -46,7 +47,7 @@ cat library.xml | fabric-ai -p analyze_xml | fabric 'What was my top artist play
 # Notes
 - Depending on your situation, your music library might be humongous (like mine, over 2000 songs)! Thus, you will most likely exceed the context length simply because of the massive amount of data being input
   - ***fix***: use the `tail` and `head` commands to cut content out for relevancy or plain size control; for example, `tail -n 300 /path/to/xml/file | fabric -p analyze_xml`
-- Most of the data in the `.xml` file will not be necessary for such stats. This is where the power of tweaking the pattern and query to your liking.
+- Most of the data in the `.xml` file will not be necessary. This is where the power of tweaking the pattern and query to your liking lies.
 
 Thus, feel free to add intermediate steps between exporting your `library.xml` and creating the custom pattern (`system.md`), including, but not limited to:
 
@@ -58,7 +59,3 @@ That way I only have the `Play Count`, `Song`, `Artist`, and `Genre` saved in th
 
 - Increasing the amount of songs, artists, genre, etc. that the model will output as the ranking. In other words, feel free to increase or decrease the length of the ranking to your heart's content, whether it be the top 100 songs, or top 3.
 - Altering the format of the output, the template that was explicated within the `system.md`. Change it to your liking if you don't prefer how the model is formatting the rankings.
-
----
-
-## I hope you find this pattern useful, entertaining, and educational. *I will be posting my custom patterns for the *fabric-ai* framework that I create as I go.*
