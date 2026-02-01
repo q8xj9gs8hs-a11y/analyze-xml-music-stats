@@ -9,7 +9,9 @@ Custom pattern for reading and displaying top statistics from Apple Music Librar
 ## To start using this pattern (Mac):
 1. Install fabric-ai on your device. If you use Homebrew:
 
-`brew install fabric-ai`
+```
+brew install fabric-ai
+```
 
 2. Create a custom directory to store your custom-made patterns (e.g. `~/.config/fabric/my-custom-patterns`). It does not matter where, just so long you configure the directory appropriately in fabric's setup (`fabric-ai --setup`).
   
@@ -18,6 +20,7 @@ Custom pattern for reading and displaying top statistics from Apple Music Librar
 4. Download the markdown file, which contains the specific prompt for this pattern, into that folder.
 
   *or*
+
 ```
   git clone https://github.com/q8xj9gs8hs-a11y/analyze-xml-music-stats.git && \
   cd q8xj9gs8hs-a11y/analyze-xml-music-stats && \
@@ -27,26 +30,36 @@ Custom pattern for reading and displaying top statistics from Apple Music Librar
 ## Example usage:
 For raw output into the Terminal:
 
-```fabric-ai -p analyze_xml < Library.xml```
+```
+fabric-ai -p analyze_xml < Library.xml
+```
 
 To save the output onto a file called `Music_stats`
 
-```fabric-ai -p analyze_xml -o Music_stats.md``` 
+```
+fabric-ai -p analyze_xml -o Music_stats.md
+``` 
 
 (1) An alternative way to pass the `Library.xml` file as input for the model via chaining with `|`. (2) following up with a query about your data
 
-```cat library.xml | fabric-ai -p analyze_xml | fabric-ai 'What was my top artist played?'```
+```
+cat library.xml | fabric-ai -p analyze_xml | fabric-ai 'What was my top artist played?'
+```
 
 # Degrees of Freedom
 1. Depending on your situation, your music library might be humongous (mine is over 2000 songs). Thus, you will most likely exceed the context length simply because of the massive amount of data being input
   - ***FIX:*** use the `tail` and `head` commands to cut content out for relevancy or plain size control; for example:
 
-```tail -n 300 Library.xml | fabric-ai -p analyze_xml```
+```
+tail -n 300 Library.xml | fabric-ai -p analyze_xml
+```
     
 2. Most of the data in the `.xml` file will not be necessary. In comes the power of tweaking the pattern and query to your liking. To add intermediate steps between exporting your `Library.xml` and creating the custom pattern (`system.md`), including, but not limited to:
  - ***FIX:*** Using `grep`, `awk`, or other related tools to parse through the data and extract only the types you need for statistics. This means that you can get more personal statistics than just what the pattern has, whatever data is in the `.xml`. Here is an example that I did:
 
-```grep -iE '<key>Name</key><string>|<key>Artist</key><string>|play count|genre' Library.xml > Library.txt```
+```
+grep -iE '<key>Name</key><string>|<key>Artist</key><string>|play count|genre' Library.xml > Library.txt
+```
 
 This way I only have the `Play Count`, `Song`, `Artist`, and `Genre` saved in the `Library.xml` file (can also be `.txt`).
 
